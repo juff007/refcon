@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>REFCON</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link href="../../css/login.css" rel="stylesheet">
+  <link rel="icon" href="../imgs/refcon.svg" type="image/svg">
+
+  <style>
+    .ui-datepicker-calendar {
+      display: none;
+    }
+
+    .box {
+      display: none;
+    }
+
+    img {
+      -webkit-user-drag: none;
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-drag: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+  </style>
+
+  <script src="../js/register.js"></script>
+
+</head>
+
+<body class="text-center">
+
+  <form class="form-signin" action="/register" method="POST" id="myForm">
+
+    <img class="mb-4" src="../../imgs/refcon.svg" alt="" width="125" height="125">
+
+    <h1 class="h3 mb-3 font-weight-normal">Enter your details below</h1>
+
+    <%if(typerror != "") {%>
+    <div class="alert alert-danger"><%= typerror %></div>
+    <%}%>
+
+    <select onchange="showParFields()" class="form-control" id="type" name="type" required>
+      <option selected disabled>Who are you ?</option>
+      <option value="student">Student</option>
+      <option value="teacher">Teacher</option>
+    </select>
+
+    <input type="text" name="fullName" class="form-control" placeholder="Full Name" required="">
+
+    <input type="text" name="phoneNumber" maxlength="10" class="form-control" placeholder="Phone Number" required="">
+
+    <input type="text" name="collegeName" class="form-control" placeholder="College Name" required="">
+
+    <div style="display: none;" id="student" class="student">
+
+      <input required type="text" id="yearOfJoining" name="yearOfJoining" class="form-control" placeholder="Year of Joining (YYYY)" minlength="4" maxlength="4">
+
+      <input required type="text" id="rollNumber" name="rollNumber" class="form-control" placeholder="Roll Number (last 3 digits)" minlength="3" maxlength="3">
+
+      <select class="form-control" id="department" name="department" required>
+        <option selected disabled>Department</option>
+        <option value="CIVIL">CIVIL</option>
+        <option value="CSE">CSE</option>
+        <option value="ECE">ECE</option>
+        <option value="EEE">EEE</option>
+        <option value="IT">IT</option>
+        <option value="MECH">MECH</option>
+      </select>
+
+      <input required type="text" id="year" name="year" maxlength="1" class="form-control" placeholder="Year">
+    </div>
+
+    <div style="display: none;" id="teacher"  class="teacher">
+      <input required type="text" id="facultyid" name="facultyid" class="form-control" placeholder="Faculty ID">
+    </div>
+
+
+    <input type="email" name="email" class="form-control" placeholder="Email address" required="">
+    <input type="password" name="password" class="form-control" placeholder="Password" required="">
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Create Account</button>
+
+  </form>
+
+</body>
+
+</html>

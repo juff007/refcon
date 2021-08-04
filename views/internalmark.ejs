@@ -1,0 +1,112 @@
+<%- include("navbaronly"); -%>
+
+<title>
+    REFCON - Internal Marks
+</title>
+
+<style>
+    font{
+        color: #e92843;
+    }
+    td, thead, th{
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+
+    <% if(data.length != 0){%>
+
+    <% if(type === 'teacher'){ %>
+
+    <div class="text-right">
+        <a title="Create Mark Space" href="/internalmarkspace" style="margin-top: 10px;margin-bottom: 10px; font-size: large; color: white;" class="btn btn-primary"><i class="fa fa-lg fa-plus"></i></a>
+    </div>
+
+    <% for(var i=(data.length-1); i >= 0; i--){ %>
+    <div title="Department: <%= data[i].department %>&#010;Year: <%= data[i].year %>&#010;Semester: <%= data[i].semester %>&#010;Subject : <%= data[i].subjectName %>&#010;Internal: <%= data[i].internalNumber %>" class="alert alert-info">
+        <div style="font-weight: bold;"><font><%= data[i].department %></font> <font><%= data[i].year %></font> year, Semester
+            <font><%= data[i].semester %></font>, <font><%= data[i].subjectName %></font> Internal No. <font><%= data[i].internalNumber %></font> Marks <a
+                class="btn btn-outline-danger" style="margin-bottom: 5px;" href="/internaldelete/<%= data[i]._id %>" role="button">Delete</a></div>
+
+        <table style="margin: auto; max-width: 100%;" class="table table-bordered table-hover table-sm">
+            <thead>
+                <tr>
+                    <th>Roll Number</th>
+                    <th>Marks Obtained</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% for(var j=0; j < data[i].rollNumbers.length; j++){ %>
+                <tr>
+                    <td> <%= data[i].rollNumbers[j] %> </td>
+                    <td> <%= data[i].marks[j] %> </td>
+                </tr>
+                <% } %>
+            </tbody>
+
+        </table>
+    </div>
+    <div class="forspacing" style="margin-top: 30px;"></div>
+    <% } %>
+    <% } else if(type ==='student'){ %>
+
+        <% var intNumbers = []; for(i=data.length-1; i >= 0; i--){ if((!intNumbers.includes(data[i].internalNumber)) && (data[i].marks.length != 0) ){ intNumbers.push(data[i].internalNumber); } } %>
+
+        <!-- The line commented below is not needed as the marks will be uploaded in an ordered manner, so no use of sorting -->
+         <!-- intNumbers = intNumbers.map(Number).sort(function(a, b){return b-a;}).map(String);  -->
+
+        <% var c = 0; for(let i = intNumbers.length-1; i >= 0; i--) { %>
+
+            <div class="alert alert-info" style="margin-top: 15px;" >
+                <div>Internal No. <span style="font-weight: bolder;"> <%= intNumbers[c] %> </span> Marks</div>
+
+                <table style="margin: auto; max-width: 100%;" class="table table-bordered table-hover">
+                    <thead>
+                        <th>Subject Code</th>
+                        <th>Subject Name</th>
+                        <th>Marks Obtained</th>
+                    </thead>
+
+                <% for(let j = data.length-1; j >= 0; j--){ if(data[j].internalNumber === intNumbers[c] ){%>
+            
+                    <% if(data[j].rollNumbers.indexOf(rollNumber) != -1) { %>
+
+                        <tr>
+                            <td>  <%= data[j].subjectCode %> </td>
+                            <td> <%= data[j].subjectName %> </td>
+                            <td> <%= data[j].marks[data[j].rollNumbers.indexOf(rollNumber)] %> </td>
+                        </tr>
+
+                    <% } %>
+            
+
+                <% } } %>
+
+            </table>
+
+            </div>
+
+        <% c++; } %>
+
+    <% } %>
+
+    <% } else if(type === 'teacher'){ %>
+
+    <div class="text-right">
+        <a title="Create Mark Space" href="/internalmarkspace" style="margin-bottom: 10px; margin-top: 10px; font-size: large; color: white;" class="btn btn-primary"><i class="fa fa-lg fa-plus"></i></a>
+    </div>
+
+    <div class="alert alert-info">
+        <h5>No Mark Space Created</h5>
+    </div>
+    <% } else if(type === 'student'){ %>
+    <div class="alert alert-info" style="margin-top: 30px;">
+        <h5>No Internal Marks has been posted </h5>
+    </div>
+    <%}%>
+
+    
+
+</div>

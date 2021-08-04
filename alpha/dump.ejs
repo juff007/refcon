@@ -1,0 +1,17 @@
+                    <% for(i=0; i<data.rows; i++){ %>
+    
+                        <tr>
+    
+                            <% for(j=0; j<data.columns; j++) { %>
+    
+                                <% if(rollNumbers[i][j] === data.thisrollNumber){ sr=i+1;sc=j+1; %>
+                                    <td id="transitcolor" style="color: white; font-weight: bolder;" class="<%= seatTypes[i][j] %>"><%= Number(rollNumbers[i][j].substring(9)) %><%=" ["+seatNumbers[i][j]+"]" %></td>
+                                <% } else{%>
+                                    <td style="color: white; font-weight: bolder;" class="<%= seatTypes[i][j] %>">[<%= seatNumbers[i][j] %>]</td>
+                                <% } %>
+
+                            <% } %>
+    
+                        </tr>
+                        
+                    <% } %>

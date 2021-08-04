@@ -1,0 +1,17 @@
+sudo apt install npm
+sudo apt install nodejs
+
+git clone 
+ls
+cd refcon
+npm i
+
+nano app.js
+port change(443)(https)
+
+
+ctrl+x-->y-->entr
+
+
+nodejs app.js
+

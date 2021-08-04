@@ -1,0 +1,198 @@
+<%- include("navbaronly"); -%>
+
+<title>
+    REFCON - Seating Order
+</title>
+
+<style>
+
+    <% if(type === 'teacher'){ %>
+        <% if(data.length > 1){ %>
+         #myModal {
+             top:9%;
+             right:50%;
+             outline: none;
+         }
+         <% } %>
+    <% } %>
+    
+    .unclick{
+        user-select: none;
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -o-user-select: none;
+    }
+
+</style>
+
+<link rel="stylesheet" href="../css/seatingorder.css">
+
+<div class="container">
+
+    <div style="margin-top: 10px;"></div>
+
+    <% if(type === 'teacher'){ %>
+        <div class="text-right">
+            <% if(data.length != 0) {%>
+                <a title="Find Student's Seat" href="/seatingorderfind" style="margin-bottom: 10px; font-size: large; color: white;" class="btn btn-lg btn-primary"><i class="fa fa-lg fa-search" aria-hidden="true"></i></a>
+            <% } %>
+            <a title="Create Seating Space" href="/seatingorderspace" style="margin-bottom: 10px; font-size: large; color: white;" class="btn btn-lg btn-primary"><i class="fa fa-lg fa-plus" aria-hidden="true"></i></a>
+        </div>
+
+
+
+        <% if(data.length > 1){ %>
+            <div>
+
+                <a class="btn btn-danger" style="margin-bottom: 10px; margin-top: 5px;" href="" role="button" data-toggle="modal" data-target="#myModal" >Delete all</a>
+
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+                    
+                    <div class="modal-content" >
+                        <div class="modal-header">
+                        <h6 style="font-weight: bolder;" class="modal-title">Delete all Seating Spaces confirmation</h6>
+                        </div>
+                        <div class="modal-body">
+                        <p style="color: black;">Are you sure?</p>
+                        <div class="text-right">
+                            <a class="btn btn-danger" href="/seatingOrderDeleteAll">Yes</a>
+                            <button type="button" class="btn btn-primary btn_no_confirm" data-dismiss="modal" aria-label="Close">No</button>
+                        </div>
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
+
+            </div>
+        <% } %>
+    <% } %>
+
+
+    <% if(type === 'teacher'){%>
+
+        <% if(data.length != 0){ %>
+
+            <% for(var k = data.length-1; k >= 0; k--){ %>
+
+                <div class="alert alert-info" style="float: left; margin-right: 30px;" title="Block: <%= data[k].block %>&#010;Session: <%= data[k].session %>">
+    
+                    <div>
+                        Block: <font style="font-size: larger; font-weight: bolder; color: #e92843;"><%= data[k].block %></font>
+                    <% if(data.length != 1){ %>
+                            <a class="btn btn-outline-danger" style="margin-bottom: 5px; margin-top: 5px;" href="/seatingorderdelete/<%= data[k]._id %>" role="button">Delete</a>
+                    <% } else{ %>
+                            <a class="btn btn-outline-danger" style="margin-bottom: 5px; margin-top: 5px;" href="/seatingOrderDeleteAll" role="button">Delete</a>
+                    <% } %>
+                    </div>
+
+                    <table class="table table-sm table-bordered" style="margin-bottom: 5px;">
+                        <tr> 
+                            <td align="center" style="font-size: small;">Session</td> 
+                            <td align="center" style="font-size: small;">Dept / Year</td>
+                            <td align="center" style="font-size: small;">Reg Nos.</th>
+                            <td align="center" style="font-size: small;">Count</td>
+                            <td align="center" style="font-size: small;">Total</td>
+                        </tr> 
+                        <tr> 
+                            <td style="vertical-align : middle;text-align:center;" rowspan="2"><font style="font-size: 25px; font-weight: bolder; color: #e92843;"><%= data[k].session %></font></td>
+                            <td style="vertical-align : middle;text-align:center;" class="<%= data[k].department1 %>"><font style="font-weight: bolder; color: white;"><%= data[k].department1 %> / <%= data[k].year1 %></font></td> 
+                            <td style="vertical-align : middle;text-align:center;" class="<%= data[k].department1 %>"style="font-size: smaller;"><font style="color: white; font-weight: bold;"><%= data[k].department1rollNumbers[0].substring(0,9) %></font> <font style="color: white;"><%= data[k].department1rollNumbers[0].substring(9) %> - <%= Number(data[k].department1rollNumbers[data[k].department1rollNumbers.length-1].substring(9)) %></font></td>
+                            <td style="vertical-align : middle;text-align:center;" class="<%= data[k].department1 %>" align="center"><font style="font-weight: bolder; color: white;"><%= data[k].department1rollNumbers.length %></font></td>
+                            <td style="vertical-align : middle;text-align:center;" rowspan="2"><font style="font-size: 25px; font-weight: bolder;"><%= data[k].department1rollNumbers.length+data[k].department2rollNumbers.length %></font></td>
+                        </tr> 
+                        <tr> 
+                            <td style="vertical-align : middle;text-align:center;" class="<%= data[k].department2 %>"><font style="font-weight: bolder; color: white;"><%= data[k].department2 %> / <%= data[k].year2 %></font></td> 
+                            <td style="vertical-align : middle;text-align:center;" class="<%= data[k].department2 %>"style="font-size: smaller;"><font style="color: white; font-weight: bold;"><%= data[k].department2rollNumbers[0].substring(0,9) %></font> <font style="color: white;"><%= data[k].department2rollNumbers[0].substring(9) %> - <%= Number(data[k].department2rollNumbers[data[k].department2rollNumbers.length-1].substring(9)) %></font></td>
+                            <td style="vertical-align : middle;text-align:center;" class="<%= data[k].department2 %>"align="center"><font style="font-weight: bolder; color: white;"><%= data[k].department2rollNumbers.length %></font></td>
+                        </tr> 
+                    </table> 
+
+                    <table class="table table-sm table-bordered">
+
+                        <% var c=0; for(i=0; i<data[k].rows; i++){ %>
+
+                            <tr>
+
+                                <% for(j=0; j<data[k].columns; j++) { %>
+
+                                    <% if(data[k].rollNumbers[c] === 'XX' ){ %>
+                                        <td class="unclick" style="vertical-align: middle; text-align: center; background-color: rgba(0, 0, 0, 0.3);color: rgba(255, 255, 255, 0.2);">[<%= data[k].seatNumbers[c] %>]</td>
+                                    <% }else{ %>
+                                        <td style="vertical-align: middle; text-align: center; color: white; font-weight: bolder;" class="<%= data[k].seatTypes[c] %>"><%= Number(data[k].rollNumbers[c].substring(9)) %><%=" ["+data[k].seatNumbers[c]+"]" %></td>
+                                    <% } %>
+
+                                <% c++; } %>
+
+                            </tr>
+
+                        <% } %>
+
+                    </table>
+    
+                </div>
+    
+            <% } %>
+
+        <% }else{ %>
+
+            <div class="alert alert-info" style="margin-top: 5px;">
+                <h5>No Seating Space created </h5>
+            </div>
+
+        <% } %>
+
+    <% } else if(type === 'student'){ %>
+
+        <% if(data){ %>
+
+            <div class="alert alert-info">
+
+                <table class="unclick table table-hover">
+                    <th style="vertical-align : middle; text-align:center;"> Session</th>
+                    <th style="vertical-align : middle; text-align:center;">Block</th>
+                    <th style="vertical-align : middle; text-align:center;">[Seat No.]<font style="font-size:small;"> (Row , Column)</font></th>
+                    <tr>
+                        <td style="vertical-align : middle; text-align:center;" ><font style="font-weight: bolder;"><%= data.session %></font></td>
+                        <td style="vertical-align : middle; text-align:center;" ><font style="font-weight: bolder;"><%= data.block %></font></td>
+                        <td style="vertical-align : middle; text-align:center;" ><font style="font-weight: bolder;">[<%= data.seatNumbers[data.rollNumbers.indexOf(data.thisrollNumber)]%>]&#010;<span style="display: block; margin-top: 5px;" id="inhere"></span></font></td>
+                    </tr>
+                </table>
+    
+                <table class="unclick table table-bordered">
+
+                    <% c=0; for(i = 0; i < data.rows; i++){ %>
+                        <tr>
+                        <% for(j = 0; j < data.columns; j++){ %>
+
+                        <% if(data.rollNumbers[c] === data.thisrollNumber){ sr=i+1;sc=j+1; %>
+                            <td style="font-size: larger; vertical-align: middle; text-align: center; font-weight: bolder;" id="transitcolor" style="color: white;" class="<%= data.seatTypes[c] %>"><%=" ["+data.seatNumbers[c]+"]" %></td>
+                        <% } else{%>
+                            <td style="vertical-align: middle; text-align: center; color: rgba(255, 255, 255, 0.5);" class="<%= data.seatTypes[c] %>">[<%= data.seatNumbers[c] %>]</td>
+                        <% } %>
+
+                        <% c++; } %>
+                        </tr>
+                    <% } %>
+
+                    <script>
+                            document.getElementById('inhere').innerHTML = "("+"<%=sr%>"+" , "+"<%=sc%>"+")";
+                    </script>
+                </table>
+            </div>
+
+        <% }else{ %>
+
+            <div class="alert alert-info" style="margin-top: 5px;">
+                <h5>No Seating Space posted </h5>
+            </div>
+
+        <% } %>
+
+    <% } %>
+
+
+
+</div>
